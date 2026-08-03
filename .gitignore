@@ -1,0 +1,88 @@
+# ============================================================
+# Unreal Engine standard ignores
+# ============================================================
+
+# Engine-regenerated build/intermediate directories (project root and any
+# Plugins/*/ subdirectory)
+Binaries/
+Build/
+Saved/
+Intermediate/
+DerivedDataCache/
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# Cache/cooked/packaged output
+*.pak
+*.sig
+Packaged/
+
+# ============================================================
+# Visual Studio / Rider / VS Code generated project files
+# ============================================================
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+*.xcodeproj
+*.xcworkspace
+
+# ============================================================
+# Unreal Engine misc
+# ============================================================
+*.tps
+*.spa
+CrashReportClient/
+Crashes/
+*.code-workspace
+
+# Precompiled Assets
+SourceArt/**/*.png
+SourceArt/**/*.tga
+
+# Compiled source files
+*.obj
+*.o
+*.pdb
+*.ilk
+*.exp
+*.lib
+
+# ============================================================
+# OS-generated files
+# ============================================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ============================================================
+# Local secrets / environment
+# ============================================================
+.env
+.env.local
+*.lic
+
+# ============================================================
+# Docs build output
+# ============================================================
+Docs/site/
+site/
+
+# ============================================================
+# Terraform local state
+# ============================================================
+Infra/Terraform/.terraform/
+Infra/Terraform/*.tfstate
+Infra/Terraform/*.tfstate.backup
+Infra/Terraform/.terraform.lock.hcl
+
+# ============================================================
+# Force Git tracking of these files
+# ============================================================
+!Tools/Build/

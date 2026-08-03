@@ -1,0 +1,73 @@
+# Pre-commit hooks for Unreal-Game-Template.
+#
+# Install once: pip install pre-commit && pre-commit install
+# Run manually: pre-commit run --all-files
+# Update hooks:  pre-commit autoupdate
+#
+# Gate philosophy (see .agent/AGENTS.md §7 AI Review & Severity Protocol):
+#   - Blocking: clang-format, check-added-large-files (LFS gate), lychee
+#   - Advisory: ruff (Tools/ Python QA/CI scripts only — the game itself has no Python)
+
+repos:
+  # ── General file hygiene ─────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^Content/
+      - id: end-of-file-fixer
+        exclude: ^Content/
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: '\.(bat|sln)$'
+      # Binary/content assets belong in Git LFS, never raw git. This is the
+      # single most important hook in a UE5 repo: a multi-hundred-MB .uasset
+      # committed without LFS bloats the history for every future clone.
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+
+  # ── C++ (Source/): clang-format ──────────────────────────────────────────
+  - repo: local
+    hooks:
+      - id: clang-format
+        name: clang-format (Source/ C++)
+        language: system
+        entry: bash -c 'clang-format --dry-run --Werror "$@"' --
+        files: ^Source/.*\.(h|hpp|cpp|cc)$
+        pass_filenames: true
+
+  # ── Python: ruff (Tools/ CI/QA automation scripts only) ──────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.0
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        files: ^Tools/.*\.py$
+      - id: ruff-format
+        files: ^Tools/.*\.py$
+
+  # ── Markdown: link checker ────────────────────────────────────────────────
+  - repo: https://github.com/lycheeverse/lychee
+    rev: lychee-v0.15.1
+    hooks:
+      - id: lychee
+        name: lychee (markdown link check)
+        args:
+          - --verbose
+          - --no-progress
+          - --include-verbatim
+        files: \.(md|markdown)$
+        pass_filenames: true
+
+  # ── Git LFS: verify pointer files aren't accidentally checked in as text ──
+  - repo: local
+    hooks:
+      - id: lfs-pointer-check
+        name: verify LFS-tracked assets are not plain-text stubs
+        language: system
+        entry: git lfs fsck
+        pass_filenames: false
+        stages: [pre-push]
