@@ -1,0 +1,39 @@
+{
+    "name": "Unreal-Game-Template Dev Environment",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cmake-tools",
+                "twxs.cmake",
+                "notskm.clang-tidy",
+                "xaver.clang-format",
+                "ms-azuretools.vscode-docker",
+                "redhat.vscode-yaml",
+                "davidanson.vscode-markdownlint",
+                "eamodio.gitlens"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "C_Cpp.default.cppStandard": "c++20",
+                "C_Cpp.clang_format_style": "file",
+                "files.associations": {
+                    "*.Build.cs": "csharp",
+                    "*.Target.cs": "csharp",
+                    "*.uproject": "json",
+                    "*.uplugin": "json"
+                },
+                "[cpp]": {
+                    "editor.defaultFormatter": "xaver.clang-format"
+                }
+            }
+        }
+    },
+    "postCreateCommand": "pre-commit install || true",
+    "remoteUser": "vscode"
+}
