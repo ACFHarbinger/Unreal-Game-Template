@@ -1,0 +1,17 @@
+coverage:
+  status:
+    project:
+      default:
+        # C++ coverage (OpenCppCoverage on Windows / gcovr on Linux) is
+        # collected from Automation Testing runs on the self-hosted UE5
+        # runner. Target starts low — adjust once this project has a
+        # real baseline.
+        target: 30%
+    patch:
+      default:
+        target: 0%
+        threshold: 0%
+        base: auto
+
+# Avoid PR comment noise until coverage collection is wired into CI
+comment: false

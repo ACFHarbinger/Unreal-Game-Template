@@ -1,0 +1,22 @@
+#!/bin/bash
+# Warn (don't block) when a binary asset extension tracked by .gitattributes
+# is about to be committed as a plain-text/non-LFS blob — this catches the
+# case where a file was `git add -f`'d before LFS was tracking its pattern,
+# or where LFS wasn't installed on this machine.
+#
+# Install: ln -sf ../../Git/Hooks/pre-commit .git/hooks/pre-commit
+
+LFS_PATTERNS="uasset umap upk udk fbx psd exr wav wem bnk ttf"
+STAGED=$(git diff --cached --name-only)
+
+for ext in $LFS_PATTERNS; do
+    MATCHES=$(echo "$STAGED" | grep -E "\.${ext}$" || true)
+    if [ -n "$MATCHES" ]; then
+        for f in $MATCHES; do
+            if ! git check-attr filter "$f" | grep -q "filter: lfs"; then
+                echo "WARNING: '$f' matches a Git LFS-tracked extension (.$ext) but is not being tracked by LFS."
+                echo "         Run 'git lfs install' and 're-add' the file, or verify .gitattributes coverage."
+            fi
+        done
+    fi
+done
