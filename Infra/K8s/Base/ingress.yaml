@@ -1,0 +1,23 @@
+# Standard Kubernetes Ingress only routes HTTP(S)/TCP — a dedicated game
+# server's UDP traffic is exposed via the LoadBalancer Service in
+# service.yaml instead. This Ingress is for an optional HTTP-facing status/
+# health endpoint (e.g. a sidecar exposing player count, match state for a
+# dashboard) — remove if the game server exposes no HTTP surface at all.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gametemplate-server-status
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: status.gametemplate.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gametemplate-server
+                port:
+                  number: 7777

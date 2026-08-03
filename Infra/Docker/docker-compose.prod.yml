@@ -1,0 +1,27 @@
+# Production overrides — apply on top of docker-compose.yml:
+#   docker compose -f Infra/Docker/docker-compose.yml -f Infra/Docker/docker-compose.prod.yml up -d
+
+services:
+  gameserver:
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4G
+        reservations:
+          cpus: "1.0"
+          memory: 2G
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  matchmaker:
+    restart: always
+    volumes:
+      - matchmaker_data:/data
+
+volumes:
+  matchmaker_data:

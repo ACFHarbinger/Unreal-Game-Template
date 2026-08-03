@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gametemplate-server
+  labels:
+    app: gametemplate-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gametemplate-server
+  template:
+    metadata:
+      labels:
+        app: gametemplate-server
+    spec:
+      containers:
+        - name: gametemplate-server
+          image: YOUR_REGISTRY/gametemplate-server:latest
+          ports:
+            - containerPort: 7777
+              protocol: UDP
+              name: game-udp
+            - containerPort: 7777
+              protocol: TCP
+              name: game-tcp
+          envFrom:
+            - configMapRef:
+                name: gametemplate-server-config
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+          readinessProbe:
+            tcpSocket:
+              port: 7777
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 7777
+            initialDelaySeconds: 15
+            periodSeconds: 20

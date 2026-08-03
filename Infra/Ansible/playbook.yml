@@ -1,0 +1,6 @@
+---
+- name: Configure bare-metal dedicated-server hosts
+  hosts: game_servers
+  become: true
+  roles:
+    - dedicated_server

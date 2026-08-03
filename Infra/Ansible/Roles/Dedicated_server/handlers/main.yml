@@ -1,0 +1,6 @@
+---
+- name: restart gametemplate-server
+  systemd:
+    name: gametemplate-server
+    state: restarted
+    daemon_reload: true

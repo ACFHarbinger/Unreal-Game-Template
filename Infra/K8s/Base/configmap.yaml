@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gametemplate-server-config
+data:
+  SERVER_PORT: "7777"
+  MATCHMAKER_HOST: "matchmaker.gametemplate.svc.cluster.local"
+  MATCHMAKER_PORT: "6379"

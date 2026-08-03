@@ -1,0 +1,40 @@
+---
+# Deploys the packaged GameTemplateServer Linux binary directly to a
+# bare-metal/VM host as a systemd service — the non-containerized
+# equivalent of Infra/Docker/Dockerfile, for hosts outside the k8s cluster.
+
+- name: Install runtime dependencies
+  apt:
+    name:
+      - ca-certificates
+      - libcurl4
+    state: present
+    update_cache: true
+
+- name: Create gameserver user
+  user:
+    name: gameserver
+    system: true
+    shell: /usr/sbin/nologin
+    home: /srv/gametemplate
+    create_home: true
+
+- name: Deploy packaged server build
+  synchronize:
+    src: "{{ playbook_dir }}/../../Packaged/LinuxServer/"
+    dest: /srv/gametemplate/
+  notify: restart gametemplate-server
+
+- name: Install systemd unit
+  template:
+    src: gametemplate-server.service.j2
+    dest: /etc/systemd/system/gametemplate-server.service
+    mode: "0644"
+  notify: restart gametemplate-server
+
+- name: Ensure service is enabled and started
+  systemd:
+    name: gametemplate-server
+    enabled: true
+    state: started
+    daemon_reload: true

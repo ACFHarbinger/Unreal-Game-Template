@@ -1,0 +1,14 @@
+[Unit]
+Description=GameTemplate dedicated server
+After=network.target
+
+[Service]
+Type=simple
+User=gameserver
+WorkingDirectory=/srv/gametemplate
+ExecStart=/srv/gametemplate/GameTemplateServer.sh -log -unattended -nopause -port={{ server_port }}
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

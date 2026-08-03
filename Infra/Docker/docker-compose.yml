@@ -1,0 +1,33 @@
+# Example local dedicated-server stack: the game server itself plus a
+# lightweight standin for a matchmaking/session backend.
+#
+# Usage (from the repo root, after `just build.server config=Shipping`):
+#   docker compose -f Infra/Docker/docker-compose.yml up --build
+
+services:
+  matchmaker:
+    image: redis:8-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  gameserver:
+    build:
+      context: ../..
+      dockerfile: Infra/Docker/Dockerfile
+    environment:
+      SERVER_PORT: "7777"
+      MATCHMAKER_HOST: matchmaker
+      MATCHMAKER_PORT: "6379"
+    ports:
+      - "7777:7777/udp"
+      - "7777:7777/tcp"
+    depends_on:
+      matchmaker:
+        condition: service_healthy
+    restart: unless-stopped
