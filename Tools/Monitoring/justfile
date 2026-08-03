@@ -1,0 +1,32 @@
+# Tools/Monitoring/justfile
+# Headless simulation & telemetry recipes: accelerated, rendering-free runs
+# exporting structured telemetry to catch AI-weight regressions and rare
+# gameplay-rules edge cases that would take real-time hours to witness
+# manually. See Moon/Roadmaps/qa_testing.md.
+
+set shell := ["bash", "-c"]
+set unstable := true
+set working-directory := '../..'
+
+cyan := '\033[0;36m'
+reset := '\033[0m'
+
+project_name := "GameTemplate"
+runs := "100"
+telemetry_dir := "Saved/Telemetry"
+
+# Run N headless simulations (dedicated-server target, -nullrhi) and export telemetry
+headless-sim runs=runs:
+    @echo -e "{{cyan}}Running {{runs}} headless simulations...{{reset}}"
+    for i in $(seq 1 {{runs}}); do \
+        "{{project_name}}Server" "{{project_name}}.uproject" -nullrhi -unattended -nopause \
+            -ExecCmds="GameTemplateSim.RunHeadless -Seed=$i -TelemetryOut={{telemetry_dir}}/run_$i.json"; \
+    done
+
+# Aggregate telemetry JSON into a summary report
+analyze-telemetry:
+    uv run --with pandas python Tools/Monitoring/analyze_telemetry.py --input {{telemetry_dir}} --output Saved/Telemetry/summary.md
+
+# Compare two telemetry summaries to catch AI-weight/physics-constant regressions
+diff-telemetry baseline current:
+    uv run --with pandas python Tools/Monitoring/diff_telemetry.py --baseline {{baseline}} --current {{current}}

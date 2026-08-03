@@ -1,0 +1,28 @@
+# Tools/Validation/justfile
+# Formatting/linting recipes for the C++ source and Python CI/QA tooling.
+
+set shell := ["bash", "-c"]
+set unstable := true
+set working-directory := '../..'
+
+green := '\033[0;32m'
+cyan := '\033[0;36m'
+reset := '\033[0m'
+
+# Check C++ formatting without modifying files (CI-safe)
+cpp:
+    @echo -e "{{cyan}}Checking clang-format compliance in Source/...{{reset}}"
+    find Source -name '*.h' -o -name '*.cpp' | xargs clang-format --dry-run --Werror
+
+# Auto-fix C++ formatting in place
+fix:
+    find Source -name '*.h' -o -name '*.cpp' | xargs clang-format -i
+    @echo -e "{{green}}✓ Source/ reformatted.{{reset}}"
+
+# Lint Python CI/QA scripts under Tools/
+python:
+    uvx ruff check Tools/
+
+# Run pre-commit across the whole tree
+pre-commit:
+    pre-commit run --all-files

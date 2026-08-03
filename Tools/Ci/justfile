@@ -1,0 +1,25 @@
+# Tools/Ci/justfile
+# Recipes mirrored by .github/workflows/ci.yml — kept here so the exact same
+# commands can be run locally before pushing.
+
+set shell := ["bash", "-c"]
+set unstable := true
+set working-directory := '../..'
+
+cyan := '\033[0;36m'
+green := '\033[0;32m'
+reset := '\033[0m'
+
+# Everything CI runs on a pull request, in order
+pr-gate:
+    @echo -e "{{cyan}}Running full PR gate: lint -> build -> automation tests...{{reset}}"
+    just validation::cpp
+    just build::editor config=Development
+    just test::automation
+    @echo -e "{{green}}✓ PR gate passed.{{reset}}"
+
+# Sync Moon/ROADMAP.md + Docs/CHANGELOG.md deltas to the GitHub Project board
+# (invoked by .github/workflows/agent_sync.yml)
+sync-backlog:
+    @echo -e "{{cyan}}Syncing backlog to Project board...{{reset}}"
+    uv run --with requests python Tools/Ci/sync_backlog.py

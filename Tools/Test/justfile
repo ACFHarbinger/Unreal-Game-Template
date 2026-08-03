@@ -1,0 +1,40 @@
+# Tools/Test/justfile
+# Headless Automation Testing recipes — see .agent/rules/testing_qa.md for
+# the edge-case philosophy (state-machine boundaries, collision-matrix
+# completeness, normalized AI scoring).
+
+set shell := ["bash", "-c"]
+set unstable := true
+set working-directory := '../..'
+
+cyan := '\033[0;36m'
+green := '\033[0;32m'
+reset := '\033[0m'
+
+project_name := "GameTemplate"
+test_filter := "GameTemplate"
+report_dir := "Saved/Automation/Reports"
+
+# Run the full Automation Testing suite headlessly (no rendering) and emit a JSON report
+automation filter=test_filter:
+    @echo -e "{{cyan}}Running automation tests matching '{{filter}}'...{{reset}}"
+    UnrealEditor-Cmd "{{project_name}}.uproject" \
+        -ExecCmds="Automation RunTests {{filter}}; Quit" \
+        -unattended -nopause -nullrhi -log \
+        -ReportOutputPath="{{report_dir}}"
+
+# Run only core gameplay/rules tests
+gameplay:
+    @just test::automation filter=GameTemplate.Core
+
+# Run only the physics/collision matrix tests
+physics:
+    @just test::automation filter=GameTemplate.Physics
+
+# Run only AI decision-scoring tests
+ai:
+    @just test::automation filter=GameTemplate.AI
+
+# Open the last automation report in a browser
+report:
+    @echo -e "{{green}}Report at {{report_dir}}/index.html{{reset}}"

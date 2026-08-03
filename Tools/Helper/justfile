@@ -1,0 +1,20 @@
+# Tools/Helper/justfile
+# Shared header/utility recipes imported by the root Justfile.
+
+set shell := ["bash", "-c"]
+set unstable := true
+set working-directory := '../..'
+
+blue := '\033[0;34m'
+bold := '\033[1m'
+reset := '\033[0m'
+
+# Canonical header — imported by root justfile as helper::_print_header
+_print_header:
+    @echo -e "{{blue}}╔══════════════════════════════════════════════════════════════════════╗{{reset}}"
+    @echo -e "{{blue}}║                       GameTemplate Control                           ║{{reset}}"
+    @echo -e "{{blue}}╚══════════════════════════════════════════════════════════════════════╝{{reset}}"
+
+# Commit staged changes using the repo's co-author trailer
+commit message:
+    git commit -m "{{message}}" -m "$(cat .gitmessage 2>/dev/null || true)"

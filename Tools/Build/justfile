@@ -1,0 +1,46 @@
+# Tools/Build/justfile
+# Build recipes wrapping UnrealBuildTool (UBT) and RunUAT (BuildCookRun).
+#
+# These invoke the standard Unreal Engine command-line toolchain. They assume
+# an environment variable UE5_ROOT points at the engine install
+# (e.g. /opt/UnrealEngine or C:/Program Files/Epic Games/UE_5.x).
+
+set shell := ["bash", "-c"]
+set unstable := true
+set working-directory := '../..'
+
+green := '\033[0;32m'
+cyan := '\033[0;36m'
+reset := '\033[0m'
+
+project_name := "GameTemplate"
+config := "Development"
+platform := "Linux"
+
+# Build the Editor target (fast iteration loop)
+editor config=config:
+    @echo -e "{{cyan}}Building {{project_name}}Editor ({{config}})...{{reset}}"
+    "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" {{project_name}}Editor {{platform}} {{config}} "{{project_name}}.uproject" -waitmutex
+
+# Build the standalone game target
+game config=config platform=platform:
+    @echo -e "{{cyan}}Building {{project_name}} ({{config}}, {{platform}})...{{reset}}"
+    "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" {{project_name}} {{platform}} {{config}} "{{project_name}}.uproject" -waitmutex
+
+# Build the headless dedicated-server target (used by Infra/Docker and Tools/Monitoring)
+server config=config:
+    @echo -e "{{cyan}}Building {{project_name}}Server ({{config}})...{{reset}}"
+    "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" {{project_name}}Server {{platform}} {{config}} "{{project_name}}.uproject" -waitmutex
+
+# Full cook + package via RunUAT BuildCookRun
+package config="Shipping" platform=platform:
+    @echo -e "{{cyan}}Packaging {{project_name}} ({{config}}, {{platform}})...{{reset}}"
+    "$UE5_ROOT/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun \
+        -project="$(pwd)/{{project_name}}.uproject" \
+        -noP4 -platform={{platform}} -clientconfig={{config}} -serverconfig={{config}} \
+        -cook -allmaps -build -stage -pak -archive -archivedirectory="$(pwd)/Packaged"
+
+# Build every target this repo cares about
+all: editor server
+    @just build game config=Development
+    @echo -e "{{green}}✓ Editor, game, and server targets built.{{reset}}"
