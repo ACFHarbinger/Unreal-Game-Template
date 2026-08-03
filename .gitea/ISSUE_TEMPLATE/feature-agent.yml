@@ -1,0 +1,89 @@
+name: "[Agent] Feature Request"
+description: Structured feature ticket for autonomous agent orchestration. Fields map directly to Project Board custom fields.
+title: "[FEATURE] "
+labels: ["feature", "agent-generated"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template produces a machine-parsable issue. Every field below is
+        consumed verbatim by `Tools/Ci/sync_backlog.py` — do not rename options.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the architecture does this feature touch?
+      options:
+        - "Core: Gameplay"
+        - "Core: Physics & Collision"
+        - "AI: Behavior Tree"
+        - "AI: Utility AI"
+        - "Animation & Rigging"
+        - "Audio: MetaSounds"
+        - "UI / HUD"
+        - "Networking"
+        - "Tooling / CI"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Milestone tier this ticket belongs to.
+      options:
+        - "Tier 1: Playable MVP"
+        - "Tier 2: Core Systems"
+        - "Tier 3: Vertical Slice"
+        - "Tier 4: Alpha & Beta / Backburner"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the feature.
+    validations:
+      required: true
+
+  - type: textarea
+    id: roadmap_link
+    attributes:
+      label: Roadmap Reference
+      description: Link to the Moon/Roadmaps/*.md section this implements, if one exists.
+      placeholder: "Moon/Roadmaps/gameplay.md §2.3"
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Bullet list of conditions that must hold for this ticket to be closed.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Issue numbers or components this feature depends on (or "None").
+      placeholder: "#123, #456"
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_notes
+    attributes:
+      label: Agent Notes
+      description: Any additional machine-readable context (file paths, module names, constraints).
+    validations:
+      required: false

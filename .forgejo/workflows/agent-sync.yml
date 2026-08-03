@@ -1,0 +1,58 @@
+name: Agent Backlog Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Moon/ROADMAP.md"
+      - "Docs/CHANGELOG.md"
+
+concurrency:
+  group: agent-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync-backlog:
+    name: Agent-driven Project Board sync
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      # Tools/Ci/sync_backlog.py talks to the GitHub Projects (v2) GraphQL
+      # API specifically (GH_PROJECT_TOKEN/PROJECT_NUMBER) -- there is no
+      # equivalent API surface on Forgejo/Gitea (their "Projects" feature is
+      # a simpler kanban board with a different, incompatible REST schema),
+      # so this job cannot do anything useful here. Fails fast with a clear
+      # message instead of letting the script run and fail confusingly on
+      # GraphQL auth/schema errors. Porting this to Forgejo/Gitea's Projects
+      # API would need a separate, dedicated script -- out of scope for a CI
+      # config mirror.
+      - name: "Guard: this workflow is GitHub-only"
+        run: |
+          echo "::error::Agent Backlog Sync targets the GitHub Projects (v2) GraphQL API and cannot run against a Forgejo/Gitea instance. This workflow is intentionally a no-op here -- see Tools/Ci/sync_backlog.py."
+          exit 1
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # need HEAD~1 to diff the pushed commit
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: latest
+
+      - name: Run backlog sync
+        run: uv run --with requests python Tools/Ci/sync_backlog.py
+        env:
+          PYTHONPATH: .
+          GH_PROJECT_TOKEN: ${{ secrets.PROJECT_ISSUES_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.sha }}
+          PROJECT_NUMBER: ${{ vars.PROJECT_NUMBER }}
+          GITHUB_PROJECT_OWNER: ${{ github.repository_owner }}

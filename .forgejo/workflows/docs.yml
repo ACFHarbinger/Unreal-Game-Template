@@ -1,0 +1,58 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Docs/**"
+      - "Moon/**"
+      - ".agent/**"
+      - "README.md"
+      - "Docs/mkdocs.yml"
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    name: Build & deploy docs site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install docs toolchain
+        run: pip install mkdocs-material mkdocs-mermaid2-plugin
+
+      - name: Build site
+        run: mkdocs build --strict --config-file Docs/mkdocs.yml --site-dir Docs/site
+
+      # No GitHub-Pages-equivalent managed deploy action exists on
+      # Forgejo/Gitea (actions/upload-pages-artifact + actions/deploy-pages
+      # are GitHub's own OIDC-based Pages mechanism) -- pushes the built
+      # site to a `pages` branch via plain git instead. This replaces the
+      # entire branch content on every deploy (no PR-preview subdirectory
+      # concept in this workflow to preserve).
+      - name: Deploy to Pages branch
+        run: |
+          set -euo pipefail
+          AUTH_URL="${GITHUB_SERVER_URL/#https:\/\//https:\/\/x-access-token:${{ secrets.GITHUB_TOKEN }}@}/${GITHUB_REPOSITORY}.git"
+          cd Docs/site
+          git init -q -b pages
+          git config user.name "forgejo-actions"
+          git config user.email "actions@noreply.localhost"
+          git add -A
+          git commit -q -m "docs: deploy ${GITHUB_SHA}"
+          git push --force "${AUTH_URL}" HEAD:pages
+          # Actual browsable URL, if any, depends on this instance's own
+          # Pages hosting setup (Forgejo Pages, Codeberg Pages, or a
+          # separately configured static host watching the `pages` branch) --
+          # not asserted here since it isn't knowable from the workflow alone.

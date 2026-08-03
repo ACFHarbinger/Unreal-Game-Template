@@ -1,0 +1,92 @@
+# GitLab CI/CD Pipeline
+# Equivalent translation of GitHub Actions: agent_sync, ci (lint + build-and-test), docs
+
+stages:
+  - sync
+  - lint
+  - build
+  - docs
+
+# ==========================================
+# STAGE: SYNC (Agent Backlog Sync)
+# ==========================================
+sync-backlog:
+  stage: sync
+  image: python:3.12
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes:
+        - "Moon/ROADMAP.md"
+        - "Docs/CHANGELOG.md"
+  script:
+    # Tools/Ci/sync_backlog.py talks to the GitHub Projects (v2) GraphQL API
+    # specifically -- there is no equivalent on GitLab (a different Issue
+    # Boards feature/schema entirely). Porting it is out of scope for a CI
+    # config mirror; fail fast with a clear message instead of letting it
+    # run and fail confusingly on GraphQL auth/schema errors.
+    - echo "Agent Backlog Sync targets the GitHub Projects (v2) GraphQL API and cannot run on GitLab. This job is intentionally a no-op here -- see Tools/Ci/sync_backlog.py." >&2
+    - exit 1
+
+# ==========================================
+# STAGE: LINT (clang-format & markdown lint)
+# ==========================================
+lint:
+  stage: lint
+  image: ubuntu:22.04
+  script:
+    - apt-get update && apt-get install -y clang-format curl
+    - |
+      if [ -d Source ]; then
+        find Source -name '*.h' -o -name '*.cpp' | xargs -r clang-format --dry-run --Werror
+      else
+        echo "Source/ not yet generated — skipping."
+      fi
+    - curl -fsSL https://github.com/lycheeverse/lychee/releases/latest/download/lychee-x86_64-unknown-linux-gnu.tar.gz | tar xz
+    - ./lychee --verbose --no-progress --include-verbatim '**/*.md'
+
+# ==========================================
+# STAGE: BUILD (Editor build + Automation Tests)
+# ==========================================
+# Requires a self-hosted GitLab Runner with a licensed Unreal Engine 5
+# install (UE5_ROOT) and the `ue5` tag registered -- GitLab's own shared
+# runners cannot host the engine due to size/licensing, mirroring the
+# GitHub Actions version's [self-hosted, ue5] requirement.
+build-and-test:
+  stage: build
+  tags:
+    - ue5
+  rules:
+    - if: '$CI_PROJECT_PATH == "YOUR_ORG/YOUR_GAME"'
+  variables:
+    GIT_LFS_SKIP_SMUDGE: "0"
+  script:
+    - git lfs pull
+    - ./GenerateProjectFiles.sh
+    - just build::editor config=Development
+    - just test::automation
+  artifacts:
+    when: always
+    paths:
+      - Saved/Automation/Reports
+
+# ==========================================
+# STAGE: DOCS (GitLab Pages)
+# ==========================================
+# This special job name "pages" is required by GitLab to deploy to GitLab Pages.
+pages:
+  stage: docs
+  image: python:3.12
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes:
+        - "Docs/**/*"
+        - "Moon/**/*"
+        - ".agent/**/*"
+        - "README.md"
+  script:
+    - pip install mkdocs-material mkdocs-mermaid2-plugin
+    # GitLab Pages requires the output directory to be named "public"
+    - mkdocs build --strict --config-file Docs/mkdocs.yml --site-dir public
+  artifacts:
+    paths:
+      - public
