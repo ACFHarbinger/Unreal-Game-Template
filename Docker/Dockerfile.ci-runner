@@ -1,0 +1,30 @@
+# Base image for the self-hosted GitHub Actions runner used by
+# .github/workflows/ci.yml (build-and-test job).
+#
+# Requires:
+#   - Your GitHub/Epic account linked for access to Epic's private registry.
+#   - `docker login ghcr.io` with a token scoped to the linked account.
+#
+# See https://dev.epicgames.com/documentation/en-us/unreal-engine/quick-start-guide-for-using-container-images-in-unreal-engine
+
+ARG UE_VERSION=5.5
+FROM ghcr.io/epicgames/unreal-engine:dev-${UE_VERSION}
+
+ENV UE5_ROOT=/home/ue4/UnrealEngine
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-cache \
+    clang-format \
+    git-lfs \
+    curl \
+    && git lfs install --system \
+    && curl -LsSf https://github.com/casey/just/releases/latest/download/just-installer.sh | sh \
+    && rm -rf /var/lib/apt/lists/*
+
+USER ue4
+WORKDIR /workspace
+
+# The GitHub Actions self-hosted runner agent itself is installed separately
+# per GitHub's runner registration flow — this image only provides the
+# engine + build toolchain dependencies the runner's jobs invoke.

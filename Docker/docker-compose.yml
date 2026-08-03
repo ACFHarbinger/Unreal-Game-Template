@@ -1,0 +1,12 @@
+services:
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile.docs
+    volumes:
+      - ../docs:/site/docs:ro
+      - ../mkdocs.yml:/site/mkdocs.yml:ro
+      - ../moon:/site/moon:ro
+      - ../Git/CONTRIBUTING.md:/site/Git/CONTRIBUTING.md:ro
+    ports:
+      - "8000:8000"
