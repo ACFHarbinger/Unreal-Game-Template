@@ -1,0 +1,28 @@
+version: 2
+
+# Note: Unreal Engine / C++ module dependencies have no native Dependabot
+# ecosystem support and are therefore not tracked here. Third-party UE5
+# plugins under Plugins/ are vendored and updated manually. Add a "pip"
+# entry here once a Tools/ pyproject.toml with a lockfile exists.
+
+updates:
+  # ── GitHub Actions workflow files ────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions-dependencies:
+        patterns:
+          - "*"
+
+  # ── Docker images used for CI runners / docs builds ──────────────────────
+  - package-ecosystem: "docker"
+    directory: "/Docker"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/Infra/Docker"
+    schedule:
+      interval: "weekly"

@@ -1,0 +1,91 @@
+name: "[Agent] Bug Report"
+description: Structured bug ticket for autonomous agent orchestration. Fields map directly to Project Board custom fields.
+title: "[BUG] "
+labels: ["bug", "agent-generated"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template produces a machine-parsable issue. Every field below is
+        consumed verbatim by `Tools/Ci/sync_backlog.py` — do not rename options.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the architecture is affected?
+      options:
+        - "Core: Gameplay"
+        - "Core: Physics & Collision"
+        - "AI: Behavior Tree"
+        - "AI: Utility AI"
+        - "Animation & Rigging"
+        - "Audio: MetaSounds"
+        - "UI / HUD"
+        - "Networking"
+        - "Tooling / CI"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Milestone tier this ticket belongs to.
+      options:
+        - "Tier 1: Playable MVP"
+        - "Tier 2: Core Systems"
+        - "Tier 3: Vertical Slice"
+        - "Tier 4: Alpha & Beta / Backburner"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Reproduction Steps
+      description: Numbered steps to reproduce the bug. If it's a simulation/AI bug, include the headless seed if known.
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual_behavior
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Stack Trace / Automation Report
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_notes
+    attributes:
+      label: Agent Notes
+      description: Any additional machine-readable context (file paths, module names, suspected root cause, headless-sim seed).
+    validations:
+      required: false

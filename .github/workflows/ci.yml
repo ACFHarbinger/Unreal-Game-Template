@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Lint: runs on standard GitHub-hosted runners, no engine install needed ──
+  lint:
+    name: clang-format & markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+
+      - name: Check C++ formatting (Source/)
+        run: |
+          if [ -d Source ]; then
+            find Source -name '*.h' -o -name '*.cpp' | xargs -r clang-format --dry-run --Werror
+          else
+            echo "Source/ not yet generated — skipping."
+          fi
+
+      - name: Check markdown links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress --include-verbatim '**/*.md'
+          fail: true
+
+  # ── Build & Automation Tests: requires a self-hosted runner with a licensed
+  #    Unreal Engine 5 install (UE5_ROOT). GitHub-hosted runners cannot host
+  #    the engine due to size/licensing, so this job only runs once a
+  #    self-hosted runner is registered with the `ue5` label.
+  build-and-test:
+    name: Build Editor & run Automation Tests
+    runs-on: [self-hosted, ue5]
+    if: github.repository == 'YOUR_ORG/YOUR_GAME'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Pull Git LFS content
+        run: git lfs pull
+
+      - name: Regenerate project files
+        run: ./GenerateProjectFiles.sh
+
+      - name: Build Editor (Development)
+        run: just build::editor config=Development
+
+      - name: Run Automation Testing suite (headless)
+        run: just test::automation
+
+      - name: Upload automation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-report
+          path: Saved/Automation/Reports
