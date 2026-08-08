@@ -86,3 +86,6 @@ Infra/Terraform/.terraform.lock.hcl
 # Force Git tracking of these files
 # ============================================================
 !Tools/Build/
+# Python build & cache artifacts
+__pycache__/
+*.egg-info/
