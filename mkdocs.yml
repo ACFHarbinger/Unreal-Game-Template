@@ -15,6 +15,9 @@ theme:
       primary: indigo
 
 nav:
+  - Development: DEVELOPMENT.md
+  - Glossary: GLOSSARY.md
+  - Testing: TESTING.md
   - Documentation Standards: DOCUMENTATION_STANDARDS.md
   - Benchmarks: BENCHMARKS.md
   - Dependencies: DEPENDENCIES.md
