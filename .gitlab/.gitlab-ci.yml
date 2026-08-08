@@ -10,22 +10,24 @@ stages:
 # ==========================================
 # STAGE: SYNC (Agent Backlog Sync)
 # ==========================================
-sync-backlog:
+agent-backlog-sync:
   stage: sync
   image: python:3.12
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: "$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH"
       changes:
-        - "Moon/ROADMAP.md"
-        - "Docs/CHANGELOG.md"
+        - "Docs/Moon/ROADMAP.md"
+        - "Docs/Moon/CHANGELOG.md"
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+  before_script:
+    - pip install uv
+    - uv sync --project Git
   script:
-    # Tools/Ci/sync_backlog.py talks to the GitHub Projects (v2) GraphQL API
-    # specifically -- there is no equivalent on GitLab (a different Issue
-    # Boards feature/schema entirely). Porting it is out of scope for a CI
-    # config mirror; fail fast with a clear message instead of letting it
-    # run and fail confusingly on GraphQL auth/schema errors.
-    - echo "Agent Backlog Sync targets the GitHub Projects (v2) GraphQL API and cannot run on GitLab. This job is intentionally a no-op here -- see Tools/Ci/sync_backlog.py." >&2
-    - exit 1
+    - uv run --project Git python -c "import json,pathlib; json.loads(pathlib.Path('Git/Config/project_labels.json').read_text())"
+    - uv run --project Git python -c "import yaml,pathlib; yaml.safe_load(pathlib.Path('Git/Config/automation_rules.yaml').read_text())"
+    - uv run --project Git python -m Git.Scripts.sync_backlog --repo-owner ACFHarbinger --repo-name Unreal-Game-Template --project-id "$PROJECT_ID"
+  variables:
+    GITHUB_TOKEN: $PROJECT_AUTOMATION_TOKEN
 
 # ==========================================
 # STAGE: LINT (clang-format & markdown lint)
