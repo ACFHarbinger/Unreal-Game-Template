@@ -15,6 +15,14 @@ theme:
       primary: indigo
 
 nav:
+  - Game Design:
+      - Overview: Design/game_design_document.md
+      - Pitch Deck: Design/pitch_deck.md
+      - Technical Design: Design/technical_design_document.md
+      - Art Bible: Design/art_bible.md
+      - Audio Design: Design/audio_design_document.md
+      - Production Roadmap: Design/production_roadmap.md
+      - QA Test Plan: Design/qa_test_plan.md
   - Development: DEVELOPMENT.md
   - Glossary: GLOSSARY.md
   - Testing: TESTING.md
