@@ -141,7 +141,7 @@ See [`Git/CONTRIBUTING.md`](Git/CONTRIBUTING.md) for branch naming, commit conve
 
 <div align="center">
 
-Dual-licensed: [AGPL-3.0](LICENSE.md) or [commercial](LICENSE.txt).
+Dual-licensed: [AGPL-3.0](LICENSE) or [commercial](LICENSE).
 
 </div>
 
@@ -151,9 +151,9 @@ This project is dual-licensed under an open-core model:
 
 - **Open source (free) — GNU AGPL-3.0.** Free to use, modify, and
   distribute for hobbyists, students, researchers, non-profits, and any
-  other use that complies with the [AGPL-3.0](LICENSE.md)'s copyleft and
+  other use that complies with the [AGPL-3.0](LICENSE)'s copyleft and
   network source-disclosure terms.
 - **Commercial (paid).** For proprietary, closed-source, or SaaS use that
   can't comply with the AGPL's obligations, a paid
-  [commercial license](LICENSE.txt) is available — contact ACFHarbinger
+  [commercial license](LICENSE) is available — contact ACFHarbinger
   <afonso.fernandes100@gmail.com> for pricing and terms.
