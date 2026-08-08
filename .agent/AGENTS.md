@@ -34,7 +34,7 @@ This document is the authoritative reference for AI assistants (Claude, Gemini, 
 
 ## Detailed Module Documentation
 
-This document provides a high-level overview. For deep dives, consult [`.agent/workflows/`](workflows/) (domain playbooks), [`.agent/rules/`](rules/) (enforced constraints), and [`Moon/Roadmaps/`](../Moon/Roadmaps/) (design options and rationale per subsystem).
+This document provides a high-level overview. For deep dives, consult [`.agent/workflows/`](workflows/) (domain playbooks), [`.agent/rules/`](rules/) (enforced constraints), and [`Docs/Docs/Moon/Roadmaps/`](../Docs/Moon/Roadmaps/) (design options and rationale per subsystem).
 
 ---
 
@@ -108,7 +108,7 @@ Source/GameTemplate/
 └── Tests/             # Automation Test specs
 ```
 
-Only introduce a subfolder when its corresponding roadmap phase actually starts — don't scaffold speculative empty modules ahead of time (mirrors `Moon/ROADMAP.md`'s phased approach).
+Only introduce a subfolder when its corresponding roadmap phase actually starts — don't scaffold speculative empty modules ahead of time (mirrors `Docs/Docs/Moon/ROADMAP.md`'s phased approach).
 
 ### 3.1 Critical Boundaries
 
@@ -361,7 +361,7 @@ just build::editor
 | File | Purpose |
 | --- | --- |
 | `CLAUDE.md` / `GEMINI.md` | Pointer files to this document. |
-| `Moon/ROADMAP.md` | Phased execution backlog. |
+| `Docs/Docs/Moon/ROADMAP.md` | Phased execution backlog. |
 | `Docs/ARCHITECTURE.md` | System design documentation. |
 | `Docs/CHANGELOG.md` | Completed-work log. |
 | `Docs/Adr/` | Architecture Decision Records. |

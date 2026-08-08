@@ -41,7 +41,7 @@ This is not a game — it is a **starting point for one**. Clone it, do a projec
 - An `.agent/` framework of prompts, rules, workflows, and skills so Claude/Gemini/Copilot-class coding assistants have consistent, enforced guardrails from commit one.
 - CI/CD (`.github/workflows/`), a `Justfile` task runner, lint/test/QA tooling (`Tools/`), and pre-commit gates.
 - Dedicated-server hosting scaffolding (`Infra/`) for when you need matchmaking and headless Linux servers in production, plus a devcontainer for consistent local C++ tooling.
-- Documentation scaffolding (`Docs/`, `Moon/`) with ADRs, a phased roadmap format, and an architecture doc template.
+- Documentation scaffolding (`Docs/`, `Docs/Moon/`) with ADRs, a phased roadmap format, and an architecture doc template.
 
 ## Using This Template
 
@@ -61,7 +61,7 @@ Unreal-Game-Template/
 ├── Plugins/           # Optional first-party/third-party plugins (see Plugins/README.md)
 ├── Tools/             # Just submodules: build, ci, helper, lint, qa, test
 ├── Docs/              # Architecture, changelog, ADRs, mkdocs site source
-├── Moon/              # Master roadmap + per-domain roadmap docs
+├── Docs/Moon/              # Master roadmap + per-domain roadmap docs
 ├── Docker/            # Headless Linux build/CI/docs container definitions
 ├── Infra/             # Dedicated-server hosting: docker, k8s, helm, terraform, ansible
 ├── .devcontainer/     # VS Code Dev Container for UE C++ tooling
@@ -71,7 +71,7 @@ Unreal-Game-Template/
 └── Justfile           # Root task-runner entry point
 ```
 
-Unreal Engine's own conventions (`Source/`, `Content/`, `Config/`, `Plugins/`, `Docker/`) keep PascalCase; the cross-cutting framework directories (`.agent/`, `Docs/`, `Git/`, `Moon/`, `Infra/`, `.devcontainer/`) are lowercase per this template's cross-project standard.
+Unreal Engine's own conventions (`Source/`, `Content/`, `Config/`, `Plugins/`, `Docker/`) keep PascalCase; the cross-cutting framework directories (`.agent/`, `Docs/`, `Git/`, `Docs/Moon/`, `Infra/`, `.devcontainer/`) are lowercase per this template's cross-project standard.
 
 ## Getting Started
 
@@ -118,7 +118,7 @@ Run `just help` (or `just` with no arguments) for the full recipe list, and `jus
 
 - **CI** (`.github/workflows/ci.yml`) — clang-format + markdown lint on GitHub-hosted runners; UnrealBuildTool build + Automation Tests on a self-hosted `ue5`-labeled runner.
 - **Docs** (`.github/workflows/docs.yml`) — builds and deploys the MkDocs site from `Docs/` to GitHub Pages.
-- **Agent sync** (`.github/workflows/agent_sync.yml`) — syncs `Moon/ROADMAP.md`/`Docs/CHANGELOG.md` deltas to a GitHub Project board.
+- **Agent sync** (`.github/workflows/agent_sync.yml`) — syncs `Docs/Docs/Moon/ROADMAP.md`/`Docs/CHANGELOG.md` deltas to a GitHub Project board.
 - **Dedicated servers** (`Infra/`) — `Infra/Docker/` (Linux headless server image + matchmaking-adjacent local stack), `Infra/K8s/` (Kustomize base+overlays for running dedicated server pods), `Infra/Helm/` (chart alternative to raw `kubectl apply -k`), `Infra/Terraform/` (cloud resource skeleton — registry, cluster, managed DB for match/session state), `Infra/Ansible/` (bare-metal/VM provisioning for self-hosted CI or dedicated-server fleets outside k8s).
 - **Dev Container** (`.devcontainer/`) — clang, CMake, and the .NET/Mono runtime UnrealBuildTool needs, for a consistent local C++ toolchain independent of host OS.
 
@@ -131,7 +131,7 @@ See [`Git/CONTRIBUTING.md`](Git/CONTRIBUTING.md) for branch naming, commit conve
 | Document | Purpose |
 | --- | --- |
 | [`.agent/AGENTS.md`](.agent/AGENTS.md) | Authoritative reference for AI coding assistants. |
-| [`Moon/ROADMAP.md`](Moon/ROADMAP.md) | Phased execution backlog template. |
+| [`Docs/Docs/Moon/ROADMAP.md`](Docs/Docs/Moon/ROADMAP.md) | Phased execution backlog template. |
 | [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md) | Completed-work log. |
 | [`Docs/ARCHITECTURE.md`](Docs/ARCHITECTURE.md) | System design template. |
 | [`Docs/Adr/`](Docs/Adr/) | Architecture Decision Records. |

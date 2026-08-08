@@ -14,7 +14,7 @@ Source/
     └── Tests/          # Compiled Automation Test specs (IMPLEMENT_SIMPLE_AUTOMATION_TEST)
 ```
 
-**Status**: Phase 0 (Pure Geometry Prototype, [`Moon/ROADMAP.md`](../Moon/ROADMAP.md)) scaffolding is authored — `AGameTemplateGameMode` spawns a ground plane and a handful of `AGameTemplateCharacter` placeholder actors using the engine's built-in basic-shape meshes, so no `Content/` assets are required to compile and run.
+**Status**: Phase 0 (Pure Geometry Prototype, [`Docs/Docs/Moon/ROADMAP.md`](../Docs/Moon/ROADMAP.md)) scaffolding is authored — `AGameTemplateGameMode` spawns a ground plane and a handful of `AGameTemplateCharacter` placeholder actors using the engine's built-in basic-shape meshes, so no `Content/` assets are required to compile and run.
 
 **This has not been compiled or run** — it was authored without a licensed Unreal Engine install available in the authoring environment. Before trusting any of it:
 

@@ -10,4 +10,4 @@
 4. Expose designer-tunable parameters via `UPROPERTY(EditAnywhere, Category = "AI")` on the task node.
 5. Add a Blackboard key dependency check in `GetInstanceMemorySize`/`InitializeMemory` if the task needs per-instance state.
 6. Test: a pure-logic unit test for any scoring/decision helper the task calls; a functional test if the task's correctness depends on actual World state.
-7. Document the new task in `Moon/Roadmaps/ai.md` if it represents a new tactical capability, not just plumbing.
+7. Document the new task in `Docs/Docs/Moon/Roadmaps/ai.md` if it represents a new tactical capability, not just plumbing.

@@ -43,7 +43,7 @@ void AGameTemplateCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 
 	// Enhanced Input mapping context binding goes here once
 	// Content/Input/ Data Assets exist — see Config/DefaultInput.ini and
-	// Moon/Roadmaps/ui_ux.md.
+	// Docs/Moon/Roadmaps/ui_ux.md.
 }
 
 void AGameTemplateCharacter::HandleCapsuleHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,

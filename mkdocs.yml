@@ -21,7 +21,9 @@ nav:
   - Architecture Decision Records:
       - ADR 1: Record Architecture Decisions: adr/0001-record-architecture-decisions.md
   - Contributing: ../Git/CONTRIBUTING.md
-  - Roadmap: ../Moon/ROADMAP.md
+  - Roadmap: Docs/Moon/ROADMAP.md
+  - Research: Moon/Research/TEMPLATE.md
+  - Reports: Moon/Reports/TEMPLATE.md
 
 markdown_extensions:
   - admonition

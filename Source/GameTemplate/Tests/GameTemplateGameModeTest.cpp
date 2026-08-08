@@ -14,7 +14,7 @@ bool FGameTemplateSanityTest::RunTest(const FString& Parameters)
 	// Trivial placeholder assertion so the test target has at least one
 	// passing test from the first commit. Replace with real coverage as
 	// Source/GameTemplate/Core, Physics, and AI logic land — see
-	// Moon/ROADMAP.md Phase 0/1.
+	// Docs/Moon/ROADMAP.md Phase 0/1.
 	TestTrue(TEXT("Template sanity check"), true);
 	return true;
 }

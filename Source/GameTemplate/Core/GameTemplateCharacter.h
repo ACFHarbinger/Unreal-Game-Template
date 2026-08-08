@@ -12,10 +12,10 @@ class USpringArmComponent;
 /**
  * Base playable/AI character.
  *
- * Phase 0 prototype (Moon/ROADMAP.md Phase 0): a Character (capsule
+ * Phase 0 prototype (Docs/Docs/Moon/ROADMAP.md Phase 0): a Character (capsule
  * collision + movement component) with an engine basic-shape placeholder
  * mesh, so no custom Content/ assets are required. See
- * Moon/Roadmaps/physics_collision.md §3 for the planned upgrade to a
+ * Docs/Moon/Roadmaps/physics_collision.md §3 for the planned upgrade to a
  * subdivided per-region Physics Asset if per-region hit detection is needed,
  * and .agent/workflows/animation_rigging.md for eventual IK/ragdoll work.
  */

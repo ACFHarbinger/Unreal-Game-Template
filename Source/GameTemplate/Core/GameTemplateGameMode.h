@@ -7,11 +7,11 @@
 class AGameTemplateCharacter;
 
 /**
- * Phase 0 prototype game mode (Moon/ROADMAP.md Phase 0): spawns a flat
+ * Phase 0 prototype game mode (Docs/Docs/Moon/ROADMAP.md Phase 0): spawns a flat
  * ground plane and a small number of placeholder actors so movement and
  * collision math can be validated before any Content/ assets exist.
  *
- * Deliberately free of art/animation — see Moon/Roadmaps/physics_collision.md
+ * Deliberately free of art/animation — see Docs/Moon/Roadmaps/physics_collision.md
  * §1 for why this phase must be validated on bare geometry before any
  * Content/ assets are introduced.
  */

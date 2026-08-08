@@ -13,4 +13,4 @@ Empty by design. `Content/` holds Unreal's binary asset formats (`.uasset`, `.um
 
 If it doesn't work as described, that's expected risk called out in [`Source/README.md`](../Source/README.md) — this code was authored without a licensed UE5 install to compile/run it against. File the discrepancy as a `bug` issue with the exact error, per [`.github/ISSUE_TEMPLATE/bug_agent.yml`](../.github/ISSUE_TEMPLATE/bug_agent.yml).
 
-No other `Content/` assets are required until `Moon/ROADMAP.md` Phase 3 (Vertical Slice) — see [`Moon/Roadmaps/architecture.md`](../Moon/Roadmaps/architecture.md) §1 for the planned asset pipeline.
+No other `Content/` assets are required until `Docs/Docs/Moon/ROADMAP.md` Phase 3 (Vertical Slice) — see [`Docs/Docs/Moon/Roadmaps/architecture.md`](../Docs/Moon/Roadmaps/architecture.md) §1 for the planned asset pipeline.

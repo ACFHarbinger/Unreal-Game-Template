@@ -52,8 +52,8 @@ body:
     id: roadmap_link
     attributes:
       label: Roadmap Reference
-      description: Link to the Moon/Roadmaps/*.md section this implements, if one exists.
-      placeholder: "Moon/Roadmaps/gameplay.md §2.3"
+      description: Link to the Docs/Moon/Roadmaps/*.md section this implements, if one exists.
+      placeholder: "Docs/Moon/Roadmaps/gameplay.md §2.3"
     validations:
       required: false
 

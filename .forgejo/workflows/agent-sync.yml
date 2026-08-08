@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "Moon/ROADMAP.md"
+      - "Docs/Moon/ROADMAP.md"
       - "Docs/CHANGELOG.md"
 
 concurrency:

@@ -8,7 +8,7 @@ class UInputMappingContext;
 
 /**
  * Base player controller. Owns the Enhanced Input mapping context binding
- * once Content/Input/ Data Assets exist (Moon/Roadmaps/ui_ux.md).
+ * once Content/Input/ Data Assets exist (Docs/Docs/Moon/Roadmaps/ui_ux.md).
  */
 UCLASS()
 class GAMETEMPLATE_API AGameTemplatePlayerController : public APlayerController
