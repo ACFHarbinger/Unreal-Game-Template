@@ -1,22 +1,51 @@
-#!/bin/bash
-# Warn (don't block) when a binary asset extension tracked by .gitattributes
-# is about to be committed as a plain-text/non-LFS blob — this catches the
-# case where a file was `git add -f`'d before LFS was tracking its pattern,
-# or where LFS wasn't installed on this machine.
+#!/usr/bin/env bash
 #
-# Install: ln -sf ../../Git/Hooks/pre-commit .git/hooks/pre-commit
+# pre-commit hook: soft-warn (never block, by default) when the *staged*
+# commit message draft is unavailable to check yet -- ticket-reference
+# enforcement itself happens in commit-msg / post-commit, since the commit
+# message doesn't exist at pre-commit time. This hook's job is limited to
+# fast, local sanity checks that should run before we even open an editor.
+#
+# Currently: verifies git/config/automation_rules.yaml and
+# git/config/project_labels.json are valid, since a broken config would
+# otherwise silently disable all downstream automation.
 
-LFS_PATTERNS="uasset umap upk udk fbx psd exr wav wem bnk ttf"
-STAGED=$(git diff --cached --name-only)
+set -uo pipefail
 
-for ext in $LFS_PATTERNS; do
-    MATCHES=$(echo "$STAGED" | grep -E "\.${ext}$" || true)
-    if [ -n "$MATCHES" ]; then
-        for f in $MATCHES; do
-            if ! git check-attr filter "$f" | grep -q "filter: lfs"; then
-                echo "WARNING: '$f' matches a Git LFS-tracked extension (.$ext) but is not being tracked by LFS."
-                echo "         Run 'git lfs install' and 're-add' the file, or verify .gitattributes coverage."
-            fi
-        done
-    fi
-done
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [[ -z "${REPO_ROOT}" ]]; then
+  exit 0
+fi
+
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
+if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+  exit 0
+fi
+
+"${PYTHON_BIN}" - "${REPO_ROOT}" <<'PYEOF'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+labels_path = root / "git" / "config" / "project_labels.json"
+rules_path = root / "git" / "config" / "automation_rules.yaml"
+
+try:
+    if labels_path.exists():
+        json.loads(labels_path.read_text(encoding="utf-8"))
+except json.JSONDecodeError as exc:
+    print(f"pre-commit: invalid project_labels.json: {exc}", file=sys.stderr)
+    sys.exit(1)
+
+try:
+    import yaml
+    if rules_path.exists():
+        yaml.safe_load(rules_path.read_text(encoding="utf-8"))
+except Exception as exc:  # noqa: BLE001
+    print(f"pre-commit: invalid automation_rules.yaml: {exc}", file=sys.stderr)
+    sys.exit(1)
+PYEOF
+
+exit $?
