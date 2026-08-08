@@ -15,14 +15,14 @@ theme:
       primary: indigo
 
 nav:
+  - Development: DEVELOPMENT.md
+  - Glossary: GLOSSARY.md
+  - Testing: TESTING.md
   - Documentation Standards: DOCUMENTATION_STANDARDS.md
   - Benchmarks: BENCHMARKS.md
   - Dependencies: DEPENDENCIES.md
   - Dependency Policy: DEPENDENCY_POLICY.md
   - Troubleshooting: TROUBLESHOOTING.md
-  - Development: DEVELOPMENT.md
-  - Glossary: GLOSSARY.md
-  - Testing: TESTING.md
   - Home: index.md
   - Architecture: ARCHITECTURE.md
   - Changelog: CHANGELOG.md
