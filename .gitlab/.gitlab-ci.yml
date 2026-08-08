@@ -21,11 +21,11 @@ agent-backlog-sync:
     - if: '$CI_PIPELINE_SOURCE == "web"'
   before_script:
     - pip install uv
-    - uv sync --project Git
+    - uv sync
   script:
-    - uv run --project Git python -c "import json,pathlib; json.loads(pathlib.Path('Git/Config/project_labels.json').read_text())"
-    - uv run --project Git python -c "import yaml,pathlib; yaml.safe_load(pathlib.Path('Git/Config/automation_rules.yaml').read_text())"
-    - uv run --project Git python -m Git.Scripts.sync_backlog --repo-owner ACFHarbinger --repo-name Unreal-Game-Template --project-id "$PROJECT_ID"
+    - uv run python -c "import json,pathlib; json.loads(pathlib.Path('Git/Config/project_labels.json').read_text())"
+    - uv run python -c "import yaml,pathlib; yaml.safe_load(pathlib.Path('Git/Config/automation_rules.yaml').read_text())"
+    - uv run python -m Git.Scripts.sync_backlog --repo-owner ACFHarbinger --repo-name Unreal-Game-Template --project-id "$PROJECT_ID"
   variables:
     GITHUB_TOKEN: $PROJECT_AUTOMATION_TOKEN
 
