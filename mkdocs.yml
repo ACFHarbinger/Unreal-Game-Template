@@ -15,6 +15,11 @@ theme:
       primary: indigo
 
 nav:
+  - Documentation Standards: DOCUMENTATION_STANDARDS.md
+  - Benchmarks: BENCHMARKS.md
+  - Dependencies: DEPENDENCIES.md
+  - Dependency Policy: DEPENDENCY_POLICY.md
+  - Troubleshooting: TROUBLESHOOTING.md
   - Home: index.md
   - Architecture: ARCHITECTURE.md
   - Changelog: CHANGELOG.md
