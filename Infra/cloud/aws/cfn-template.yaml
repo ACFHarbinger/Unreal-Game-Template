@@ -7,7 +7,7 @@ Description: Serverless Backend stack for the Unreal Game Template.
 
 Resources:
   # DynamoDB Database Table
-  Unreal_game_templateTable:
+  UnrealGameTemplateTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
       PrimaryKey:
@@ -18,7 +18,7 @@ Resources:
         WriteCapacityUnits: 5
 
   # Lambda Function
-  Unreal_game_templateFunction:
+  UnrealGameTemplateFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: handler.lambda_handler
@@ -26,10 +26,10 @@ Resources:
       CodeUri: ./src
       Environment:
         Variables:
-          TABLE_NAME: !Ref Unreal_game_templateTable
+          TABLE_NAME: !Ref UnrealGameTemplateTable
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref Unreal_game_templateTable
+            TableName: !Ref UnrealGameTemplateTable
       Events:
         ApiEvent:
           Type: Api
