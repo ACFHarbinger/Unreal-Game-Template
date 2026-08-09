@@ -18,7 +18,7 @@ services:
 
   gameserver:
     build:
-      context: ../../../../..
+      context: ../../..
       dockerfile: Infra/global/Docker/Dockerfile
     environment:
       SERVER_PORT: "7777"
