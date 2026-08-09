@@ -6,7 +6,7 @@ C++ game modules for `GameTemplate.uproject`.
 Source/
 ├── GameTemplate.Target.cs         # Game target
 ├── GameTemplateEditor.Target.cs   # Editor target
-├── GameTemplateServer.Target.cs   # Headless dedicated-server target (Infra/Docker, Tools/Monitoring)
+├── GameTemplateServer.Target.cs   # Headless dedicated-server target (Infra/global/Docker, Tools/Monitoring)
 └── GameTemplate/                  # The one runtime module (GameTemplate.Build.cs)
     ├── Core/          # Game mode, character, player controller
     ├── Physics/       # Custom Object Channel constants (Config/DefaultEngine.ini registers the names)

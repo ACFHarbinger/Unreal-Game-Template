@@ -5,7 +5,7 @@ Unreal Engine games generally aren't containerized for the game itself — the E
 1. **`Dockerfile.docs`** — a lightweight container to build/preview the MkDocs documentation site locally, without installing the Python doc toolchain on the host.
 2. **`Dockerfile.ci-runner`** — the base image for the **self-hosted** GitHub Actions runner (`.github/workflows/ci.yml`) that has a licensed Unreal Engine install baked in.
 
-For **dedicated game server** containerization (the packaged, headless Linux server target running in production), see [`Infra/Docker/`](../Infra/Docker/) instead — that's a separate concern from these dev-tooling images.
+For **dedicated game server** containerization (the packaged, headless Linux server target running in production), see [`Infra/global/Docker/`](../Infra/global/Docker/) instead — that's a separate concern from these dev-tooling images.
 
 ## A note on Unreal Engine + Docker licensing
 

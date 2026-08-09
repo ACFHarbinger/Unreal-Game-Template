@@ -77,10 +77,10 @@ site/
 # ============================================================
 # Terraform local state
 # ============================================================
-Infra/Terraform/.terraform/
-Infra/Terraform/*.tfstate
-Infra/Terraform/*.tfstate.backup
-Infra/Terraform/.terraform.lock.hcl
+Infra/global/Terraform/.terraform/
+Infra/global/Terraform/*.tfstate
+Infra/global/Terraform/*.tfstate.backup
+Infra/global/Terraform/.terraform.lock.hcl
 
 # ============================================================
 # Force Git tracking of these files

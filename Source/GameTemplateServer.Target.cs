@@ -2,7 +2,7 @@ using UnrealBuildTool;
 using System.Collections.Generic;
 
 // Headless dedicated-server target used by Tools/Monitoring/justfile's `headless-sim`
-// recipe and by Infra/Docker's production server image — built with
+// recipe and by Infra/global/Docker's production server image — built with
 // -nullrhi at runtime, no rendering dependencies required.
 public class GameTemplateServerTarget : TargetRules
 {
