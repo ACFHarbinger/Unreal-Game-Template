@@ -16,7 +16,7 @@ terraform {
   # Remote state backend — configure before the first `terraform init`.
   # backend "s3" {
   #   bucket = "your-org-gametemplate-tfstate"
-  #   key    = "Infra/Terraform.tfstate"
+  #   key    = "Infra/global/Terraform.tfstate"
   #   region = "us-east-1"
   # }
 }

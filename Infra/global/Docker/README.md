@@ -1,4 +1,4 @@
-# Infra/Docker/
+# Infra/global/Docker/
 
 Containerization for the **packaged, headless Linux dedicated-server build** (`GameTemplateServer`, built via `just build.server` or `just build::server`) — this is production hosting infrastructure, distinct from [`Docker/`](../../Docker/) at the repo root, which only holds dev-tooling images (docs preview, CI runner).
 
@@ -7,7 +7,7 @@ Containerization for the **packaged, headless Linux dedicated-server build** (`G
 ```bash
 cp .env.example .env    # create at repo root if it doesn't exist yet — set SERVER_PORT etc.
 just build.server config=Shipping platform=Linux
-docker compose -f Infra/Docker/docker-compose.yml up --build
+docker compose -f Infra/global/Docker/docker-compose.yml up --build
 ```
 
 ## Files
@@ -16,7 +16,7 @@ docker compose -f Infra/Docker/docker-compose.yml up --build
 | --- | --- |
 | `Dockerfile` | Packages a pre-built `GameTemplateServer` Linux binary (see `entrypoint.sh`) into a minimal runtime image — it does **not** compile the engine inside the container; build the server binary first via `just build.server`. |
 | `docker-compose.yml` | Local dev stack: dedicated server + a lightweight session/matchmaking-adjacent backend (Redis, standing in for a real matchmaker) |
-| `docker-compose.prod.yml` | Production overrides (apply with `-f Infra/Docker/docker-compose.yml -f Infra/Docker/docker-compose.prod.yml`) |
+| `docker-compose.prod.yml` | Production overrides (apply with `-f Infra/global/Docker/docker-compose.yml -f Infra/global/Docker/docker-compose.prod.yml`) |
 | `entrypoint.sh` | Waits for dependencies (e.g., a matchmaking/session service) before exec'ing the server binary with the right `-log -unattended` flags |
 
 ## Notes

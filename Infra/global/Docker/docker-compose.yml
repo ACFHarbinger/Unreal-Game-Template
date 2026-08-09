@@ -2,7 +2,7 @@
 # lightweight standin for a matchmaking/session backend.
 #
 # Usage (from the repo root, after `just build.server config=Shipping`):
-#   docker compose -f Infra/Docker/docker-compose.yml up --build
+#   docker compose -f Infra/global/Docker/docker-compose.yml up --build
 
 services:
   matchmaker:
@@ -18,8 +18,8 @@ services:
 
   gameserver:
     build:
-      context: ../..
-      dockerfile: Infra/Docker/Dockerfile
+      context: ../../../../..
+      dockerfile: Infra/global/Docker/Dockerfile
     environment:
       SERVER_PORT: "7777"
       MATCHMAKER_HOST: matchmaker

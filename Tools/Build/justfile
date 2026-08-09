@@ -27,7 +27,7 @@ game config=config platform=platform:
     @echo -e "{{cyan}}Building {{project_name}} ({{config}}, {{platform}})...{{reset}}"
     "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" {{project_name}} {{platform}} {{config}} "{{project_name}}.uproject" -waitmutex
 
-# Build the headless dedicated-server target (used by Infra/Docker and Tools/Monitoring)
+# Build the headless dedicated-server target (used by Infra/global/Docker and Tools/Monitoring)
 server config=config:
     @echo -e "{{cyan}}Building {{project_name}}Server ({{config}})...{{reset}}"
     "$UE5_ROOT/Engine/Build/BatchFiles/Linux/Build.sh" {{project_name}}Server {{platform}} {{config}} "{{project_name}}.uproject" -waitmutex

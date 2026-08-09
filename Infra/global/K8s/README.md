@@ -1,10 +1,10 @@
-# Infra/K8s/
+# Infra/global/K8s/
 
 Kustomize-based Kubernetes manifests for running `GameTemplateServer` dedicated-server pods: a `base/` layer plus per-environment `overlays/`.
 
 ```bash
-kubectl apply -k Infra/K8s/Overlays/Dev
-kubectl apply -k Infra/K8s/Overlays/Prod
+kubectl apply -k Infra/global/K8s/Overlays/Dev
+kubectl apply -k Infra/global/K8s/Overlays/Prod
 ```
 
 | Directory | Purpose |
@@ -21,6 +21,6 @@ Unlike a stateless web service, a UE dedicated-server pod holds **live match sta
 2. **Production-grade**: adopt [Agones](https://agones.dev/) (a Kubernetes controller purpose-built for game server fleets — handles the allocate/health/graceful-shutdown lifecycle a raw `Deployment` doesn't). Not wired up in this template; evaluate once `Docs/Docs/Moon/Roadmaps/networking.md` §1's design spike concludes multiplayer is actually needed.
 
 > **TODO:** Point the `image:` field in `base/deployment.yaml` at your real
-> container registry once one exists (see `Infra/Docker/`). The Helm chart
-> in `Infra/Helm/` packages the same base manifests for teams that prefer
+> container registry once one exists (see `Infra/global/Docker/`). The Helm chart
+> in `Infra/global/Helm/` packages the same base manifests for teams that prefer
 > `helm install` over `kubectl apply -k`.

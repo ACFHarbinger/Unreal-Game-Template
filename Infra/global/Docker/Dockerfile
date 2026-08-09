@@ -7,7 +7,7 @@
 # built output into a minimal, deployable runtime container.
 #
 # Build context is the repository ROOT (see docker-compose.yml:
-#   build: { context: ../.., dockerfile: Infra/Docker/Dockerfile }).
+#   build: { context: ../.., dockerfile: Infra/global/Docker/Dockerfile }).
 
 FROM debian:bookworm-slim AS runtime
 
@@ -27,7 +27,7 @@ WORKDIR /srv/gametemplate
 # directory (see Tools/Build/justfile's `package` recipe).
 COPY --chown=gameserver:gameserver Packaged/LinuxServer/ ./
 
-COPY --chown=gameserver:gameserver Infra/Docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY --chown=gameserver:gameserver Infra/global/Docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 USER gameserver

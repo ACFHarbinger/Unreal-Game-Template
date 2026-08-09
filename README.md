@@ -119,7 +119,7 @@ Run `just help` (or `just` with no arguments) for the full recipe list, and `jus
 - **CI** (`.github/workflows/ci.yml`) — clang-format + markdown lint on GitHub-hosted runners; UnrealBuildTool build + Automation Tests on a self-hosted `ue5`-labeled runner.
 - **Docs** (`.github/workflows/docs.yml`) — builds and deploys the MkDocs site from `Docs/` to GitHub Pages.
 - **Agent sync** (`.github/workflows/agent_sync.yml`) — syncs `Docs/Docs/Moon/ROADMAP.md`/`Docs/CHANGELOG.md` deltas to a GitHub Project board.
-- **Dedicated servers** (`Infra/`) — `Infra/Docker/` (Linux headless server image + matchmaking-adjacent local stack), `Infra/K8s/` (Kustomize base+overlays for running dedicated server pods), `Infra/Helm/` (chart alternative to raw `kubectl apply -k`), `Infra/Terraform/` (cloud resource skeleton — registry, cluster, managed DB for match/session state), `Infra/Ansible/` (bare-metal/VM provisioning for self-hosted CI or dedicated-server fleets outside k8s).
+- **Dedicated servers** (`Infra/`) — `Infra/global/Docker/` (Linux headless server image + matchmaking-adjacent local stack), `Infra/global/K8s/` (Kustomize base+overlays for running dedicated server pods), `Infra/global/Helm/` (chart alternative to raw `kubectl apply -k`), `Infra/global/Terraform/` (cloud resource skeleton — registry, cluster, managed DB for match/session state), `Infra/global/Ansible/` (bare-metal/VM provisioning for self-hosted CI or dedicated-server fleets outside k8s).
 - **Dev Container** (`.devcontainer/`) — clang, CMake, and the .NET/Mono runtime UnrealBuildTool needs, for a consistent local C++ toolchain independent of host OS.
 
 ## Contributing

@@ -8,4 +8,4 @@ Before building any networking code: does this game need multiplayer, and if so,
 
 If the design needs client-side prediction with rollback, this depends on the determinism guarantees in `.agent/AGENTS.md` §8.3 already holding for the relevant state machines — validate that first (see `Moon/Roadmaps/gameplay.md` §2) before investing in netcode.
 
-See `Infra/K8s/` and `Infra/Terraform/` for the dedicated-server hosting scaffolding this roadmap eventually deploys to.
+See `Infra/global/K8s/` and `Infra/global/Terraform/` for the dedicated-server hosting scaffolding this roadmap eventually deploys to.

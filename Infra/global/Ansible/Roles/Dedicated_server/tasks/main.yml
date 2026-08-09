@@ -1,7 +1,7 @@
 ---
 # Deploys the packaged GameTemplateServer Linux binary directly to a
 # bare-metal/VM host as a systemd service — the non-containerized
-# equivalent of Infra/Docker/Dockerfile, for hosts outside the k8s cluster.
+# equivalent of Infra/global/Docker/Dockerfile, for hosts outside the k8s cluster.
 
 - name: Install runtime dependencies
   apt:

@@ -1,5 +1,5 @@
 # Production overrides — apply on top of docker-compose.yml:
-#   docker compose -f Infra/Docker/docker-compose.yml -f Infra/Docker/docker-compose.prod.yml up -d
+#   docker compose -f Infra/global/Docker/docker-compose.yml -f Infra/global/Docker/docker-compose.prod.yml up -d
 
 services:
   gameserver:

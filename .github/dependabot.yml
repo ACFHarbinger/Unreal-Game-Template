@@ -23,6 +23,6 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "/Infra/Docker"
+    directory: "/Infra/global/Docker"
     schedule:
       interval: "weekly"
