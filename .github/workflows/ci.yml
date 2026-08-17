@@ -16,7 +16,7 @@ jobs:
     name: clang-format & markdown lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install clang-format
         run: sudo apt-get update && sudo apt-get install -y clang-format
@@ -30,7 +30,7 @@ jobs:
           fi
 
       - name: Check markdown links
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v2
         with:
           args: --verbose --no-progress --include-verbatim '**/*.md'
           fail: true
@@ -44,7 +44,7 @@ jobs:
     runs-on: [self-hosted, ue5]
     if: github.repository == 'YOUR_ORG/YOUR_GAME'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           lfs: true
 
@@ -62,7 +62,7 @@ jobs:
 
       - name: Upload automation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: automation-report
           path: Saved/Automation/Reports
